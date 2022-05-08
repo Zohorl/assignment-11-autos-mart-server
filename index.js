@@ -23,14 +23,14 @@ async function run() {
             const cursor = itemCollection.find(query);
             const items = await cursor.toArray();
             res.send(items);
-        })
+        });
 
         app.get('/item/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const item = await itemCollection.findOne(query);
             res.send(item);
-        })
+        });
         // PUT
         app.put('/item/:id', async (req, res) => {
             const id = req.params.id;
@@ -45,7 +45,7 @@ async function run() {
             };
             const result = await itemCollection.updateOne(filter, updateDoc, options);
             res.send(result);
-        })
+        });
 
         app.put('/item/:id', async (req, res) => {
             const id = req.params.id;
@@ -59,7 +59,14 @@ async function run() {
             };
             const result = await itemCollection.updateOne(filter, updateDoc, options);
             res.send(result);
-        })
+        });
+
+        // POST
+        app.post('/item', async (req, res) => {
+            const newItem = req.body;
+            const result = await itemCollection.insertOne(newItem);
+            res.send(result);
+        });
     }
     finally {
 
